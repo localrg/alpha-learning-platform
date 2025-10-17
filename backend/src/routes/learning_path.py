@@ -111,3 +111,54 @@ def get_next_skill():
     except Exception as e:
         return jsonify({'error': f'Failed to get next skill: {str(e)}'}), 500
 
+
+
+
+@learning_path_bp.route('/update-progress', methods=['PUT'])
+@jwt_required()
+def update_progress():
+    """Update progress for a skill in the learning path"""
+    try:
+        current_user_id = int(get_jwt_identity())
+        data = request.get_json()
+        
+        skill_id = data.get('skill_id')
+        correct_answers = data.get('correct_answers', 0)
+        total_questions = data.get('total_questions', 0)
+        
+        if not skill_id or total_questions == 0:
+            return jsonify({'error': 'Missing required fields'}), 400
+        
+        # Get student
+        student = Student.query.filter_by(user_id=current_user_id).first()
+        if not student:
+            return jsonify({'error': 'Student profile not found'}), 404
+        
+        # Get or create learning path item
+        learning_path_item = LearningPath.query.filter_by(
+            student_id=student.id,
+            skill_id=skill_id
+        ).first()
+        
+        if not learning_path_item:
+            # Create new learning path item
+            learning_path_item = LearningPath(
+                student_id=student.id,
+                skill_id=skill_id,
+                status='in_progress'
+            )
+            db.session.add(learning_path_item)
+        
+        # Update progress
+        learning_path_item.update_progress(correct_answers, total_questions)
+        db.session.commit()
+        
+        return jsonify({
+            'message': 'Progress updated successfully',
+            'learning_path_item': learning_path_item.to_dict()
+        }), 200
+        
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
+

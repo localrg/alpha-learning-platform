@@ -4,6 +4,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from flask import Flask, send_from_directory
+from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from src.database import init_db
 from src.models.user import User
@@ -69,6 +70,9 @@ from src.routes.export_routes import export_bp
 from src.routes.admin_routes import admin_bp
 
 app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'static'))
+
+# Enable CORS
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 # Configuration
 app.config['SECRET_KEY'] = 'asdf#FGSgvasgf$5$WGT'
@@ -136,5 +140,8 @@ def serve(path):
 
 
 if __name__ == '__main__':
+    # Initialize database with test users on first run
+    from init_db import init_database
+    init_database()
     app.run(host='0.0.0.0', port=5000, debug=True)
 

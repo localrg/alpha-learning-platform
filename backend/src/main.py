@@ -68,6 +68,7 @@ from src.routes.predictive_routes import predictive_bp
 from src.routes.recommendation_routes import recommendation_bp
 from src.routes.export_routes import export_bp
 from src.routes.admin_routes import admin_bp
+from src.routes.init_routes import init_bp
 
 app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'static'))
 
@@ -121,6 +122,7 @@ app.register_blueprint(predictive_bp)
 app.register_blueprint(recommendation_bp)
 app.register_blueprint(export_bp)
 app.register_blueprint(admin_bp)
+app.register_blueprint(init_bp)
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')

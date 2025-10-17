@@ -12,6 +12,7 @@ from src.models.assessment import Assessment, AssessmentResponse, Question, Skil
 from src.routes.user import user_bp
 from src.routes.auth import auth_bp
 from src.routes.student import student_bp
+from src.routes.assessment import assessment_bp
 
 app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'static'))
 
@@ -29,6 +30,7 @@ init_db(app)
 app.register_blueprint(user_bp, url_prefix='/api')
 app.register_blueprint(auth_bp, url_prefix='/api/auth')
 app.register_blueprint(student_bp, url_prefix='/api/student')
+app.register_blueprint(assessment_bp, url_prefix='/api/assessment')
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')

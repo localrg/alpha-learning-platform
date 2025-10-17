@@ -214,8 +214,9 @@ function App() {
   );
 }
 
-function AppContent() {
+function MainApp() {
   const { isAuthenticated, loading } = useAuth();
+  const [showRegister, setShowRegister] = useState(false);
 
   if (loading) {
     return (
@@ -229,7 +230,10 @@ function AppContent() {
   }
 
   if (!isAuthenticated) {
-    return <Login />;
+    if (showRegister) {
+      return <Register onSwitchToLogin={() => setShowRegister(false)} />;
+    }
+    return <Login onSwitchToRegister={() => setShowRegister(true)} />;
   }
 
   return <AuthenticatedApp />;

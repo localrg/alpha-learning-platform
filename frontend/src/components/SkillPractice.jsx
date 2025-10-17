@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import MasteryAchievement from './MasteryAchievement';
 import axios from 'axios';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
@@ -30,6 +31,8 @@ export default function SkillPractice({ skillId, onComplete, onBack }) {
     startTime: Date.now()
   });
   const [practiceComplete, setPracticeComplete] = useState(false);
+  const [masteryAchieved, setMasteryAchieved] = useState(false);
+  const [masteryData, setMasteryData] = useState(null);
   const [learningPathItem, setLearningPathItem] = useState(null);
 
   useEffect(() => {
@@ -122,7 +125,7 @@ export default function SkillPractice({ skillId, onComplete, onBack }) {
       const token = localStorage.getItem('token');
       
       // Update learning path progress
-      await axios.put(
+      const response = await axios.put(
         `/api/learning-path/update-progress`,
         {
           skill_id: skillId,
@@ -132,13 +135,37 @@ export default function SkillPractice({ skillId, onComplete, onBack }) {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       
-      setPracticeComplete(true);
+      // Check if mastery was achieved
+      if (response.data.mastery_status && response.data.mastery_status.newly_mastered) {
+        setMasteryAchieved(true);
+        setMasteryData({
+          ...response.data.mastery_status,
+          skill_name: skill.name,
+          skill_id: skillId
+        });
+      } else {
+        setPracticeComplete(true);
+      }
       
     } catch (error) {
       console.error('Error updating progress:', error);
       setPracticeComplete(true); // Still show completion even if update fails
     }
   };
+
+  // Show mastery achievement if achieved
+  if (masteryAchieved && masteryData) {
+    return (
+      <MasteryAchievement
+        skill={masteryData}
+        onContinue={() => {
+          setMasteryAchieved(false);
+          setPracticeComplete(true);
+        }}
+        onNextSkill={onComplete}
+      />
+    );
+  }
 
   if (loading) {
     return (

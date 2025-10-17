@@ -190,4 +190,56 @@ class LearningPathService:
             return next_skill.to_dict()
         
         return None
+    
+    @staticmethod
+    def check_and_update_mastery(learning_path_id):
+        """
+        Check if a skill has been mastered and update status.
+        
+        Mastery criteria:
+        - 90%+ accuracy
+        - At least 5 questions answered
+        
+        Args:
+            learning_path_id: ID of the learning path item
+            
+        Returns:
+            dict: Mastery status and achievement details
+        """
+        item = LearningPath.query.get(learning_path_id)
+        if not item:
+            raise ValueError("Learning path item not found")
+        
+        # Check mastery criteria
+        mastery_threshold = 90.0
+        minimum_questions = 5
+        
+        is_mastered = (
+            item.current_accuracy >= mastery_threshold and
+            item.questions_answered >= minimum_questions
+        )
+        
+        # If newly mastered, update status
+        if is_mastered and not item.mastery_achieved:
+            item.mastery_achieved = True
+            item.mastery_date = datetime.utcnow()
+            item.status = 'mastered'
+            db.session.commit()
+            
+            return {
+                'newly_mastered': True,
+                'mastery_achieved': True,
+                'skill_name': item.skill.name,
+                'final_accuracy': item.current_accuracy,
+                'total_attempts': item.attempts,
+                'mastery_date': item.mastery_date.isoformat()
+            }
+        
+        return {
+            'newly_mastered': False,
+            'mastery_achieved': item.mastery_achieved,
+            'current_accuracy': item.current_accuracy,
+            'questions_answered': item.questions_answered,
+            'progress_to_mastery': min(100, (item.current_accuracy / mastery_threshold) * 100)
+        }
 

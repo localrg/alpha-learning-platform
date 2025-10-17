@@ -1,10 +1,11 @@
 """
 Learning Path API routes for generating and managing personalized learning paths.
 """
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from src.database import db
 from src.models.student import Student
+from src.models.learning_path import LearningPath
 from src.services.learning_path_service import LearningPathService
 
 learning_path_bp = Blueprint('learning_path', __name__, url_prefix='/api/learning-path')
@@ -153,9 +154,13 @@ def update_progress():
         learning_path_item.update_progress(correct_answers, total_questions)
         db.session.commit()
         
+        # Check for mastery
+        mastery_status = LearningPathService.check_and_update_mastery(learning_path_item.id)
+        
         return jsonify({
             'message': 'Progress updated successfully',
-            'learning_path_item': learning_path_item.to_dict()
+            'learning_path_item': learning_path_item.to_dict(),
+            'mastery_status': mastery_status
         }), 200
         
     except Exception as e:

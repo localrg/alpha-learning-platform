@@ -1,0 +1,320 @@
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Button } from './ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
+import { RadioGroup, RadioGroupItem } from './ui/radio-group';
+import { Label } from './ui/label';
+import { Progress } from './ui/progress';
+import { CheckCircle2, XCircle, Trophy, Target, Clock } from 'lucide-react';
+
+export default function Assessment({ onComplete }) {
+  const [assessmentState, setAssessmentState] = useState('not_started'); // not_started, in_progress, completed
+  const [assessment, setAssessment] = useState(null);
+  const [questions, setQuestions] = useState([]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState('');
+  const [feedback, setFeedback] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [startTime, setStartTime] = useState(null);
+  const [results, setResults] = useState(null);
+
+  const startAssessment = async () => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.post(
+        '/api/assessment/start',
+        { assessment_type: 'diagnostic' },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      
+      setAssessment(response.data.assessment);
+      setQuestions(response.data.questions);
+      setAssessmentState('in_progress');
+      setStartTime(Date.now());
+    } catch (error) {
+      console.error('Error starting assessment:', error);
+      alert('Failed to start assessment. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const submitAnswer = async () => {
+    if (!selectedAnswer) {
+      alert('Please select an answer');
+      return;
+    }
+
+    setLoading(true);
+    const timeSpent = Math.floor((Date.now() - startTime) / 1000);
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.post(
+        `/api/assessment/${assessment.id}/submit`,
+        {
+          question_id: questions[currentQuestionIndex].id,
+          student_answer: selectedAnswer,
+          time_spent_seconds: timeSpent
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      setFeedback(response.data);
+      
+      // Auto-advance after 3 seconds
+      setTimeout(() => {
+        if (currentQuestionIndex < questions.length - 1) {
+          setCurrentQuestionIndex(currentQuestionIndex + 1);
+          setSelectedAnswer('');
+          setFeedback(null);
+          setStartTime(Date.now());
+        } else {
+          completeAssessment();
+        }
+      }, 3000);
+      
+    } catch (error) {
+      console.error('Error submitting answer:', error);
+      alert('Failed to submit answer. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const completeAssessment = async () => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.post(
+        `/api/assessment/${assessment.id}/complete`,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      setResults(response.data);
+      setAssessmentState('completed');
+    } catch (error) {
+      console.error('Error completing assessment:', error);
+      alert('Failed to complete assessment. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const currentQuestion = questions[currentQuestionIndex];
+  const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+
+  if (assessmentState === 'not_started') {
+    return (
+      <Card className="max-w-2xl mx-auto">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Target className="h-6 w-6" />
+            Diagnostic Assessment
+          </CardTitle>
+          <CardDescription>
+            Let's find out where you are and create your personalized learning path
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="bg-blue-50 p-4 rounded-lg space-y-2">
+            <h3 className="font-semibold text-blue-900">What to expect:</h3>
+            <ul className="list-disc list-inside space-y-1 text-blue-800">
+              <li>10-12 questions covering different math topics</li>
+              <li>Questions from your current grade and below</li>
+              <li>No time limit - take your time to think</li>
+              <li>Immediate feedback on each question</li>
+            </ul>
+          </div>
+
+          <div className="bg-green-50 p-4 rounded-lg space-y-2">
+            <h3 className="font-semibold text-green-900">Remember:</h3>
+            <ul className="list-disc list-inside space-y-1 text-green-800">
+              <li>This helps us understand what you know</li>
+              <li>It's okay if you don't know some answers</li>
+              <li>We'll create a perfect learning plan for you</li>
+              <li>There are no grades - this is just for learning!</li>
+            </ul>
+          </div>
+
+          <Button 
+            onClick={startAssessment} 
+            disabled={loading}
+            className="w-full"
+            size="lg"
+          >
+            {loading ? 'Starting...' : 'Start Assessment'}
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (assessmentState === 'in_progress' && currentQuestion) {
+    return (
+      <div className="max-w-2xl mx-auto space-y-6">
+        {/* Progress Bar */}
+        <Card>
+          <CardContent className="pt-6">
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm text-gray-600">
+                <span>Question {currentQuestionIndex + 1} of {questions.length}</span>
+                <span>{Math.round(progress)}% Complete</span>
+              </div>
+              <Progress value={progress} />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Question Card */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-xl">
+              {currentQuestion.question_text}
+            </CardTitle>
+            <CardDescription>
+              {currentQuestion.difficulty.charAt(0).toUpperCase() + currentQuestion.difficulty.slice(1)} • 
+              Grade {currentQuestion.grade_level}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {!feedback ? (
+              <>
+                <RadioGroup value={selectedAnswer} onValueChange={setSelectedAnswer}>
+                  {currentQuestion.options.map((option, index) => (
+                    <div key={index} className="flex items-center space-x-2 p-3 rounded-lg hover:bg-gray-50">
+                      <RadioGroupItem value={option} id={`option-${index}`} />
+                      <Label htmlFor={`option-${index}`} className="flex-1 cursor-pointer">
+                        {option}
+                      </Label>
+                    </div>
+                  ))}
+                </RadioGroup>
+
+                <Button 
+                  onClick={submitAnswer} 
+                  disabled={!selectedAnswer || loading}
+                  className="w-full"
+                >
+                  {loading ? 'Submitting...' : 'Submit Answer'}
+                </Button>
+              </>
+            ) : (
+              <div className={`p-4 rounded-lg ${feedback.is_correct ? 'bg-green-50' : 'bg-red-50'}`}>
+                <div className="flex items-start gap-3">
+                  {feedback.is_correct ? (
+                    <CheckCircle2 className="h-6 w-6 text-green-600 flex-shrink-0 mt-1" />
+                  ) : (
+                    <XCircle className="h-6 w-6 text-red-600 flex-shrink-0 mt-1" />
+                  )}
+                  <div className="space-y-2 flex-1">
+                    <p className={`font-semibold ${feedback.is_correct ? 'text-green-900' : 'text-red-900'}`}>
+                      {feedback.is_correct ? 'Correct!' : 'Not quite right'}
+                    </p>
+                    {!feedback.is_correct && (
+                      <p className="text-red-800">
+                        The correct answer is: <strong>{feedback.correct_answer}</strong>
+                      </p>
+                    )}
+                    <p className={feedback.is_correct ? 'text-green-800' : 'text-red-800'}>
+                      {feedback.explanation}
+                    </p>
+                    <p className="text-sm text-gray-600 mt-2">
+                      Moving to next question...
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (assessmentState === 'completed' && results) {
+    const scorePercentage = results.score_percentage;
+    const scoreColor = scorePercentage >= 80 ? 'text-green-600' : scorePercentage >= 60 ? 'text-yellow-600' : 'text-red-600';
+
+    return (
+      <div className="max-w-2xl mx-auto space-y-6">
+        {/* Results Card */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Trophy className="h-6 w-6 text-yellow-500" />
+              Assessment Complete!
+            </CardTitle>
+            <CardDescription>
+              Great job! Here's how you did
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {/* Score */}
+            <div className="text-center p-6 bg-gray-50 rounded-lg">
+              <div className={`text-6xl font-bold ${scoreColor}`}>
+                {Math.round(scorePercentage)}%
+              </div>
+              <p className="text-gray-600 mt-2">
+                {results.assessment.correct_answers} out of {results.assessment.total_questions} correct
+              </p>
+            </div>
+
+            {/* Skills to Work On */}
+            {results.skills_to_work_on && results.skills_to_work_on.length > 0 && (
+              <div className="space-y-3">
+                <h3 className="font-semibold text-lg">Skills to Focus On:</h3>
+                {results.skills_to_work_on.map((skill) => (
+                  <div key={skill.id} className="p-4 border rounded-lg">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <h4 className="font-semibold">{skill.name}</h4>
+                        <p className="text-sm text-gray-600">{skill.description}</p>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-sm font-semibold text-red-600">
+                          {Math.round(skill.accuracy * 100)}%
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          {skill.questions_attempted} questions
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {results.skills_to_work_on.length === 0 && (
+              <div className="p-4 bg-green-50 rounded-lg text-center">
+                <p className="text-green-800 font-semibold">
+                  Excellent! You're doing great across all skills tested.
+                </p>
+              </div>
+            )}
+
+            <Button 
+              onClick={onComplete}
+              className="w-full"
+              size="lg"
+            >
+              Continue to Learning
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex items-center justify-center min-h-[400px]">
+      <div className="text-center">
+        <Clock className="h-12 w-12 animate-spin mx-auto text-gray-400" />
+        <p className="mt-4 text-gray-600">Loading...</p>
+      </div>
+    </div>
+  );
+}
+

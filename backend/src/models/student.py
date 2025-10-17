@@ -17,6 +17,15 @@ class Student(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, unique=True)
     name = db.Column(db.String(100), nullable=False)
     grade = db.Column(db.Integer, nullable=False)  # 3-8 for grades 3rd-8th
+    
+    # Profile fields
+    bio = db.Column(db.Text, nullable=True)
+    avatar = db.Column(db.String(200), nullable=True, default='😊')  # Emoji or image URL
+    profile_visibility = db.Column(db.String(20), nullable=False, default='public')  # public, friends, private
+    show_stats = db.Column(db.Boolean, nullable=False, default=True)
+    show_achievements = db.Column(db.Boolean, nullable=False, default=True)
+    show_activity = db.Column(db.Boolean, nullable=False, default=True)
+    
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
 
@@ -33,6 +42,12 @@ class Student(db.Model):
             'user_id': self.user_id,
             'name': self.name,
             'grade': self.grade,
+            'bio': self.bio,
+            'avatar': self.avatar,
+            'profile_visibility': self.profile_visibility,
+            'show_stats': self.show_stats,
+            'show_achievements': self.show_achievements,
+            'show_activity': self.show_activity,
             'created_at': self.created_at.isoformat() if self.created_at else None,
             'updated_at': self.updated_at.isoformat() if self.updated_at else None,
         }

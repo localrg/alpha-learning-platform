@@ -28,6 +28,13 @@ class LearningPath(db.Model):
     mastery_achieved = db.Column(db.Boolean, default=False)
     mastery_date = db.Column(db.DateTime, nullable=True)
     
+    # Review tracking (for spaced repetition)
+    last_reviewed_at = db.Column(db.DateTime, nullable=True)
+    next_review_date = db.Column(db.DateTime, nullable=True)
+    review_count = db.Column(db.Integer, default=0)
+    review_interval_days = db.Column(db.Integer, default=1)  # Current interval
+    questions_answered = db.Column(db.Integer, default=0)  # Total questions answered in practice
+    
     # Priority and sequencing
     priority = db.Column(db.Integer, default=0)  # Lower number = higher priority
     sequence_order = db.Column(db.Integer, nullable=True)  # Order in learning path
@@ -75,6 +82,9 @@ class LearningPath(db.Model):
             'current_accuracy': round(self.current_accuracy, 1),
             'mastery_achieved': self.mastery_achieved,
             'mastery_date': self.mastery_date.isoformat() if self.mastery_date else None,
+            'last_reviewed_at': self.last_reviewed_at.isoformat() if self.last_reviewed_at else None,
+            'next_review_date': self.next_review_date.isoformat() if self.next_review_date else None,
+            'review_count': self.review_count,
             'priority': self.priority,
             'sequence_order': self.sequence_order,
             'started_at': self.started_at.isoformat() if self.started_at else None,

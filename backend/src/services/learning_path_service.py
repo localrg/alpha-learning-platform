@@ -9,6 +9,7 @@ from src.models.assessment import Assessment, AssessmentResponse
 from src.models.learning_path import LearningPath
 from src.models.assessment import Skill
 from datetime import datetime
+from src.services.review_service import ReviewService
 
 
 class LearningPathService:
@@ -225,6 +226,9 @@ class LearningPathService:
             item.mastery_date = datetime.utcnow()
             item.status = 'mastered'
             db.session.commit()
+            
+            # Schedule first review (spaced repetition)
+            ReviewService.schedule_first_review(item)
             
             return {
                 'newly_mastered': True,

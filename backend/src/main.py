@@ -8,6 +8,7 @@ from flask_jwt_extended import JWTManager
 from src.database import init_db
 from src.models.user import User
 from src.models.student import Student
+from src.models.assessment import Assessment, AssessmentResponse, Question, Skill
 from src.routes.user import user_bp
 from src.routes.auth import auth_bp
 from src.routes.student import student_bp

@@ -1,0 +1,142 @@
+.social-feed-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.feed-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.feed-header h1 {
+  font-size: 32px;
+  color: #1a1a1a;
+  margin: 0 0 10px 0;
+}
+
+.feed-subtitle {
+  font-size: 16px;
+  color: #666;
+  margin: 0;
+}
+
+.feed-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #e0e0e0;
+  overflow-x: auto;
+}
+
+.tab {
+  background: none;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  color: #667eea;
+  background: #f8f9fa;
+}
+
+.tab.active {
+  color: #667eea;
+  border-bottom-color: #667eea;
+}
+
+.feed-container {
+  min-height: 400px;
+}
+
+.loading {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+  font-size: 18px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.empty-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+}
+
+.empty-state h3 {
+  font-size: 24px;
+  color: #1a1a1a;
+  margin: 0 0 10px 0;
+}
+
+.empty-state p {
+  font-size: 16px;
+  color: #666;
+  margin: 0;
+}
+
+.activities-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.load-more {
+  text-align: center;
+  margin-top: 30px;
+  padding: 20px;
+}
+
+.btn-load-more {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 12px 32px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-load-more:hover:not(:disabled) {
+  background: #5568d3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btn-load-more:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .social-feed-page {
+    padding: 15px;
+  }
+
+  .feed-header h1 {
+    font-size: 24px;
+  }
+
+  .feed-tabs {
+    gap: 5px;
+  }
+
+  .tab {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+}
+

@@ -1,5 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import MasteryAchievement from './MasteryAchievement';
+import TutorialList from './TutorialList';
+import ExampleList from './ExampleList';
+import HintButton from './HintButton';
+import HintDisplay from './HintDisplay';
+import SolutionButton from './SolutionButton';
 import axios from 'axios';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
@@ -34,6 +39,9 @@ export default function SkillPractice({ skillId, onComplete, onBack }) {
   const [masteryAchieved, setMasteryAchieved] = useState(false);
   const [masteryData, setMasteryData] = useState(null);
   const [learningPathItem, setLearningPathItem] = useState(null);
+  const [showTutorials, setShowTutorials] = useState(false);
+  const [showExamples, setShowExamples] = useState(false);
+  const [hints, setHints] = useState([]);
 
   useEffect(() => {
     loadSkillAndQuestions();
@@ -112,6 +120,7 @@ export default function SkillPractice({ skillId, onComplete, onBack }) {
         setSelectedAnswer('');
         setFeedback(null);
         setShowHint(false);
+        setHints([]);  // Reset hints for new question
       } else {
         completePractice();
       }
@@ -324,9 +333,17 @@ export default function SkillPractice({ skillId, onComplete, onBack }) {
               </CardTitle>
               <CardDescription>Grade {skill.grade_level}</CardDescription>
             </div>
-            <Button variant="outline" size="sm" onClick={onBack}>
-              Back
-            </Button>
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" onClick={() => setShowExamples(!showExamples)}>
+                {showExamples ? 'Hide' : '🎮 Try'} Examples
+              </Button>
+              <Button variant="outline" size="sm" onClick={() => setShowTutorials(!showTutorials)}>
+                {showTutorials ? 'Hide' : '📺 Watch'} Tutorial
+              </Button>
+              <Button variant="outline" size="sm" onClick={onBack}>
+                Back
+              </Button>
+            </div>
           </div>
         </CardHeader>
         <CardContent>
@@ -341,6 +358,16 @@ export default function SkillPractice({ skillId, onComplete, onBack }) {
           </div>
         </CardContent>
       </Card>
+
+      {/* Interactive Examples Section */}
+      {showExamples && (
+        <ExampleList skillId={skillId} skillName={skill.name} />
+      )}
+
+      {/* Tutorial Section */}
+      {showTutorials && (
+        <TutorialList skillId={skillId} skillName={skill.name} />
+      )}
 
       {/* Question */}
       <Card>
@@ -363,28 +390,23 @@ export default function SkillPractice({ skillId, onComplete, onBack }) {
                 </div>
               </RadioGroup>
 
-              {/* Hint */}
-              {currentQuestion.hint && (
-                <div className="pt-2">
-                  {!showHint ? (
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => setShowHint(true)}
-                      className="text-purple-600 border-purple-300"
-                    >
-                      <Lightbulb className="w-4 h-4 mr-2" />
-                      Show Hint
-                    </Button>
-                  ) : (
-                    <div className="p-3 bg-purple-50 border border-purple-200 rounded-lg">
-                      <div className="flex items-start gap-2">
-                        <Lightbulb className="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5" />
-                        <p className="text-purple-900 text-sm">{currentQuestion.hint}</p>
-                      </div>
-                    </div>
-                  )}
-                </div>
+              {/* Progressive Hints */}
+              <div className="pt-2">
+                <HintButton
+                  questionId={currentQuestion.id}
+                  onHintReceived={(hint) => setHints([...hints, hint])}
+                  disabled={false}
+                />
+              </div>
+
+              {/* Hint Display */}
+              {hints.length > 0 && (
+                <HintDisplay
+                  hints={hints}
+                  onFeedback={(hintId, helpful) => {
+                    console.log(`Hint ${hintId} was ${helpful ? 'helpful' : 'not helpful'}`);
+                  }}
+                />
               )}
 
               <Button 
@@ -416,6 +438,17 @@ export default function SkillPractice({ skillId, onComplete, onBack }) {
                   <p className={feedback.is_correct ? 'text-green-800' : 'text-red-800'}>
                     {feedback.explanation}
                   </p>
+                  
+                  {/* Solution Button */}
+                  <div className="mt-4">
+                    <SolutionButton
+                      questionId={currentQuestion.id}
+                      eligible={true}
+                      attemptsRequired={1}
+                      attemptsMade={1}
+                    />
+                  </div>
+                  
                   <p className="text-sm text-gray-600 mt-2">
                     {currentQuestionIndex < questions.length - 1 
                       ? 'Moving to next question...' 

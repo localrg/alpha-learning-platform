@@ -1,0 +1,304 @@
+.platform-metrics {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.metrics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.metrics-header h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.75rem;
+  color: #1a202c;
+}
+
+.metrics-header .subtitle {
+  margin: 0;
+  color: #718096;
+  font-size: 0.95rem;
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.time-range-select {
+  padding: 0.75rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  background: white;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.time-range-select:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.export-dropdown {
+  position: relative;
+}
+
+.btn-export {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid #e2e8f0;
+  background: white;
+  color: #4a5568;
+  font-size: 0.95rem;
+}
+
+.btn-export:hover {
+  background: #f7fafc;
+  border-color: #cbd5e0;
+}
+
+.export-dropdown:hover .export-menu {
+  display: block;
+}
+
+.export-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 180px;
+  z-index: 10;
+}
+
+.export-menu button {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  font-size: 0.9rem;
+  color: #2d3748;
+}
+
+.export-menu button:first-child {
+  border-radius: 8px 8px 0 0;
+}
+
+.export-menu button:last-child {
+  border-radius: 0 0 8px 8px;
+}
+
+.export-menu button:hover {
+  background: #f7fafc;
+}
+
+/* Metrics Overview */
+.metrics-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.metric-card-large {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.metric-card-large:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.metric-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.metric-icon {
+  font-size: 1.75rem;
+}
+
+.metric-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.metric-value-large {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 0.5rem;
+}
+
+.metric-subtitle {
+  font-size: 0.9rem;
+  color: #718096;
+  margin-bottom: 0.5rem;
+}
+
+.metric-secondary {
+  font-size: 0.85rem;
+  color: #a0aec0;
+}
+
+.metric-breakdown {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.breakdown-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.breakdown-label {
+  font-size: 0.8rem;
+  color: #a0aec0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.breakdown-value {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+/* Chart Sections */
+.chart-section {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem;
+}
+
+.chart-section h3 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.25rem;
+  color: #1a202c;
+}
+
+.chart-section h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  color: #4a5568;
+  text-align: center;
+}
+
+.chart-container-large {
+  width: 100%;
+  height: 350px;
+}
+
+/* Engagement Grid */
+.engagement-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.engagement-card {
+  background: #f7fafc;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.engagement-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 0.5rem;
+}
+
+.engagement-label {
+  font-size: 0.9rem;
+  color: #718096;
+  margin-bottom: 1rem;
+}
+
+.engagement-chart {
+  height: 100px;
+}
+
+/* Performance Grid */
+.performance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.performance-chart {
+  background: #f7fafc;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .platform-metrics {
+    padding: 1rem;
+  }
+
+  .metrics-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .time-range-select,
+  .btn-export {
+    width: 100%;
+  }
+
+  .metrics-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .metric-breakdown {
+    flex-direction: column;
+  }
+
+  .engagement-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .performance-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

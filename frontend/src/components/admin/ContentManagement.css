@@ -1,0 +1,98 @@
+.content-management {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.management-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.management-header h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.75rem;
+  color: #1a202c;
+}
+
+.management-header .subtitle {
+  margin: 0;
+  color: #718096;
+  font-size: 0.95rem;
+}
+
+/* Skill Cell */
+.skill-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.skill-name {
+  color: #2d3748;
+  font-weight: 500;
+}
+
+.skill-description {
+  color: #a0aec0;
+  font-size: 0.85rem;
+}
+
+/* Subject Badge */
+.subject-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  background: #e6f3ff;
+  color: #0066cc;
+}
+
+/* Difficulty Badges */
+.difficulty-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.difficulty-beginner {
+  background: #c6f6d5;
+  color: #22543d;
+}
+
+.difficulty-intermediate {
+  background: #fff3e6;
+  color: #cc6600;
+}
+
+.difficulty-advanced {
+  background: #fed7d7;
+  color: #742a2a;
+}
+
+.difficulty-default {
+  background: #f7fafc;
+  color: #718096;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .content-management {
+    padding: 1rem;
+  }
+
+  .management-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+

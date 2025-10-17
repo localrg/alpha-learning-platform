@@ -1,0 +1,292 @@
+.array-grid-container {
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.instructions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #e3f2fd;
+  border-left: 4px solid #2196f3;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  font-size: 1.05em;
+  color: #1976d2;
+}
+
+.instruction-icon {
+  font-size: 1.2em;
+}
+
+.grid-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+}
+
+.array-grid {
+  display: grid;
+  gap: 4px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 100%;
+}
+
+.grid-cell {
+  aspect-ratio: 1;
+  background: white;
+  border: 2px solid #dee2e6;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  min-width: 30px;
+  min-height: 30px;
+}
+
+.grid-cell.editable {
+  cursor: pointer;
+}
+
+.grid-cell.editable:hover {
+  border-color: #3498db;
+  background: #e3f2fd;
+  transform: scale(1.05);
+}
+
+.grid-cell.filled {
+  background: #3498db;
+  border-color: #2980b9;
+}
+
+.grid-cell.filled .cell-dot {
+  width: 60%;
+  height: 60%;
+  background: white;
+  border-radius: 50%;
+  animation: popIn 0.3s ease;
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Grid Labels */
+.grid-labels {
+  display: flex;
+  gap: 24px;
+  font-size: 1.1em;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.row-label::before {
+  content: '↕ ';
+  color: #3498db;
+}
+
+.col-label::before {
+  content: '↔ ';
+  color: #3498db;
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.controls > div:first-child {
+  display: flex;
+  gap: 12px;
+}
+
+.controls button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-fill {
+  background: #2ecc71;
+  color: white;
+}
+
+.btn-fill:hover {
+  background: #27ae60;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(46, 204, 113, 0.3);
+}
+
+.btn-clear {
+  background: #e74c3c;
+  color: white;
+}
+
+.btn-clear:hover {
+  background: #c0392b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+}
+
+/* Resize Controls */
+.resize-controls {
+  display: flex;
+  gap: 24px;
+  padding: 12px 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.resize-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.resize-group label {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.resize-group button {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: #3498db;
+  color: white;
+  font-size: 1.2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.resize-group button:hover {
+  background: #2980b9;
+}
+
+.resize-group span {
+  min-width: 30px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.1em;
+  color: #2c3e50;
+}
+
+/* Equation Display */
+.equation-display {
+  text-align: center;
+  margin-top: 24px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.equation-parts {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.equation-part {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.equation-part .value {
+  font-size: 2em;
+  font-weight: 700;
+  color: #2c3e50;
+  font-family: 'Courier New', monospace;
+}
+
+.equation-part .label {
+  font-size: 0.9em;
+  color: #7f8c8d;
+  font-weight: 600;
+}
+
+.equation-part.result .value {
+  color: #2ecc71;
+}
+
+.operator {
+  font-size: 2em;
+  font-weight: 700;
+  color: #3498db;
+  font-family: 'Courier New', monospace;
+}
+
+.fill-status {
+  margin-top: 12px;
+  padding: 8px 16px;
+  background: #fff3cd;
+  color: #856404;
+  border-radius: 6px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .array-grid {
+    padding: 12px;
+    gap: 3px;
+  }
+
+  .grid-cell {
+    min-width: 25px;
+    min-height: 25px;
+  }
+
+  .equation-part .value {
+    font-size: 1.5em;
+  }
+
+  .operator {
+    font-size: 1.5em;
+  }
+
+  .resize-controls {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .controls > div:first-child {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .controls button {
+    width: 100%;
+  }
+}
+

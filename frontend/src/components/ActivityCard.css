@@ -1,0 +1,220 @@
+.activity-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s;
+  border-left: 4px solid #e0e0e0;
+}
+
+.activity-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Color themes */
+.activity-card.green {
+  border-left-color: #28a745;
+}
+
+.activity-card.purple {
+  border-left-color: #764ba2;
+}
+
+.activity-card.gold {
+  border-left-color: #ffd700;
+}
+
+.activity-card.blue {
+  border-left-color: #667eea;
+}
+
+.activity-card.orange {
+  border-left-color: #ff6b35;
+}
+
+.activity-card.lightblue {
+  border-left-color: #4fc3f7;
+}
+
+.activity-card.navy {
+  border-left-color: #1e3a8a;
+}
+
+.activity-card.gray {
+  border-left-color: #9e9e9e;
+}
+
+.activity-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.student-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.student-avatar {
+  font-size: 40px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0;
+  border-radius: 50%;
+}
+
+.student-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.student-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.you-badge {
+  background: #667eea;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.student-meta {
+  font-size: 14px;
+  color: #666;
+}
+
+.btn-delete {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #999;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.btn-delete:hover {
+  background: #fee;
+  color: #e74c3c;
+}
+
+.activity-content {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.activity-icon {
+  font-size: 36px;
+  flex-shrink: 0;
+}
+
+.activity-text {
+  flex: 1;
+}
+
+.activity-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
+}
+
+.activity-description {
+  font-size: 15px;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.activity-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.stat-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-badge.xp {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.stat-badge.accuracy {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.stat-badge.questions {
+  background: #f3e5f5;
+  color: #6a1b9a;
+}
+
+.stat-badge.streak {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .activity-card {
+    padding: 15px;
+  }
+
+  .student-avatar {
+    font-size: 32px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .activity-icon {
+    font-size: 28px;
+  }
+
+  .activity-title {
+    font-size: 16px;
+  }
+
+  .activity-description {
+    font-size: 14px;
+  }
+
+  .activity-stats {
+    gap: 8px;
+  }
+
+  .stat-badge {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+}
+

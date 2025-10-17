@@ -1,0 +1,279 @@
+.number-line-container {
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.instructions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #e3f2fd;
+  border-left: 4px solid #2196f3;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  font-size: 1.05em;
+  color: #1976d2;
+}
+
+.instruction-icon {
+  font-size: 1.2em;
+}
+
+.number-line-wrapper {
+  padding: 60px 20px;
+  position: relative;
+}
+
+.number-line {
+  position: relative;
+  height: 80px;
+  width: 100%;
+}
+
+/* Line Track */
+.line-track {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #3498db;
+  border-radius: 2px;
+}
+
+/* Tick Marks */
+.tick {
+  position: absolute;
+  top: 30px;
+  transform: translateX(-50%);
+}
+
+.tick-mark {
+  width: 2px;
+  height: 20px;
+  background: #2c3e50;
+  margin: 0 auto;
+}
+
+.tick-label {
+  margin-top: 4px;
+  font-size: 0.9em;
+  font-weight: 600;
+  color: #2c3e50;
+  text-align: center;
+}
+
+/* Markers */
+.marker {
+  position: absolute;
+  top: 20px;
+  transform: translateX(-50%);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.marker-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  margin: 0 auto;
+  border: 3px solid white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.marker-label {
+  margin-top: 4px;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  border-radius: 4px;
+  font-size: 0.85em;
+  font-weight: 600;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.start-marker .marker-dot {
+  background: #95a5a6;
+}
+
+.current-marker .marker-dot {
+  background: #3498db;
+  cursor: grab;
+}
+
+.current-marker.dragging {
+  transform: translateX(-50%) scale(1.2);
+  z-index: 10;
+}
+
+.current-marker.dragging .marker-dot {
+  cursor: grabbing;
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.5);
+}
+
+.result-marker .marker-dot {
+  background: #2ecc71;
+}
+
+/* Jumps Animation */
+.jumps-container {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  right: 0;
+  height: 50px;
+  pointer-events: none;
+}
+
+.jump {
+  position: absolute;
+  height: 30px;
+  animation: jumpAnimation 0.6s ease-in-out forwards;
+  opacity: 0;
+}
+
+.jump-arrow {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.jump.add .jump-arrow::before {
+  content: '→';
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5em;
+  color: #2ecc71;
+  font-weight: bold;
+}
+
+.jump.subtract .jump-arrow::before {
+  content: '←';
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5em;
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+.jump-arrow::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: currentColor;
+  border-radius: 2px;
+}
+
+.jump.add {
+  color: #2ecc71;
+}
+
+.jump.subtract {
+  color: #e74c3c;
+}
+
+@keyframes jumpAnimation {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-5px);
+  }
+  100% {
+    opacity: 0.7;
+    transform: translateY(0);
+  }
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.controls button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-animate {
+  background: #3498db;
+  color: white;
+}
+
+.btn-animate:hover {
+  background: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+}
+
+.btn-reset {
+  background: #95a5a6;
+  color: white;
+}
+
+.btn-reset:hover {
+  background: #7f8c8d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(149, 165, 166, 0.3);
+}
+
+/* Equation Display */
+.equation-display {
+  text-align: center;
+  margin-top: 20px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.equation {
+  font-size: 1.5em;
+  font-weight: 700;
+  color: #2c3e50;
+  font-family: 'Courier New', monospace;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .number-line-wrapper {
+    padding: 40px 10px;
+  }
+
+  .marker-label {
+    font-size: 0.75em;
+  }
+
+  .equation {
+    font-size: 1.2em;
+  }
+
+  .controls {
+    flex-direction: column;
+  }
+
+  .controls button {
+    width: 100%;
+  }
+}
+

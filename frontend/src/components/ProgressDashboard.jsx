@@ -4,6 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/
 import { Progress } from './ui/progress';
 import { Button } from './ui/button';
 import { Trophy, Target, Clock, TrendingUp, BookOpen, CheckCircle2, Circle } from 'lucide-react';
+import DailyChallengesCard from './DailyChallengesCard';
+import StreakDisplay from './StreakDisplay';
 
 export default function ProgressDashboard({ onStartPractice }) {
   const [loading, setLoading] = useState(true);
@@ -165,6 +167,12 @@ export default function ProgressDashboard({ onStartPractice }) {
             </CardContent>
           </Card>
         </div>
+
+        {/* Daily Challenges */}
+        <DailyChallengesCard />
+
+        {/* Streak Tracking */}
+        <StreakDisplay />
 
         {/* Next Recommended Skill */}
         {nextSkill && (

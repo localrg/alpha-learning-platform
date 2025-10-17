@@ -1,0 +1,94 @@
+.xp-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  color: white;
+  padding: 16px 24px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 999;
+  animation: slideInRight 0.3s ease, floatUp 3s ease forwards;
+  min-width: 200px;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+}
+
+.xp-notification-icon {
+  font-size: 32px;
+  animation: rotate 0.6s ease;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg) scale(0);
+  }
+  to {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+.xp-notification-content {
+  flex: 1;
+}
+
+.xp-notification-amount {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.xp-notification-description {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .xp-notification {
+    top: 10px;
+    right: 10px;
+    padding: 12px 18px;
+    min-width: 160px;
+  }
+
+  .xp-notification-icon {
+    font-size: 24px;
+  }
+
+  .xp-notification-amount {
+    font-size: 16px;
+  }
+
+  .xp-notification-description {
+    font-size: 11px;
+  }
+}
+

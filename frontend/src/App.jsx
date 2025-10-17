@@ -6,6 +6,20 @@ import StudentProfile from './components/StudentProfile';
 import Assessment from './components/Assessment';
 import ProgressDashboard from './components/ProgressDashboard';
 import SkillPractice from './components/SkillPractice';
+import ReviewDashboard from './components/ReviewDashboard';
+import ReviewSession from './components/ReviewSession';
+import ResourceLibrary from './components/ResourceLibrary';
+import XPDisplay from './components/XPDisplay';
+import LevelUpModal from './components/LevelUpModal';
+import XPNotification from './components/XPNotification';
+import AchievementsPage from './components/AchievementsPage';
+import LeaderboardPage from './components/LeaderboardPage';
+import ProfilePage from './components/ProfilePage';
+import FriendsPage from './components/FriendsPage';
+import ClassesPage from './components/ClassesPage';
+import SharedChallengesPage from './components/SharedChallengesPage';
+import ChallengeDetailPage from './components/ChallengeDetailPage';
+import SocialFeedPage from './components/SocialFeedPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import { Button } from './components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './components/ui/card';
@@ -15,7 +29,7 @@ function AuthenticatedApp() {
   const { user, logout } = useAuth();
   const [student, setStudent] = useState(null);
   const [loadingStudent, setLoadingStudent] = useState(true);
-  const [currentView, setCurrentView] = useState('dashboard'); // 'dashboard', 'assessment', 'practice'
+  const [currentView, setCurrentView] = useState('dashboard'); // 'dashboard', 'assessment', 'practice', 'reviews', 'review-session', 'resources', 'achievements', 'leaderboard', 'profile', 'friends', 'classes', 'shared-challenges', 'challenge-detail', 'feed'
   const [selectedSkill, setSelectedSkill] = useState(null);
 
   // Fetch student profile on mount
@@ -64,6 +78,19 @@ function AuthenticatedApp() {
     setCurrentView('dashboard');
   };
 
+  const handleShowReviews = () => {
+    setCurrentView('reviews');
+  };
+
+  const handleStartReviewSession = (learningPathId) => {
+    setSelectedSkill({ learningPathId }); // Store for review session
+    setCurrentView('review-session');
+  };
+
+  const handleReviewComplete = () => {
+    setCurrentView('reviews');
+  };
+
   if (loadingStudent) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -81,6 +108,148 @@ function AuthenticatedApp() {
   }
 
   // Render current view
+  if (currentView === 'leaderboard') {
+    return (
+      <div>
+        <div className="bg-white shadow-sm border-b">
+          <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 className="text-2xl font-bold text-gray-900">Leaderboards</h1>
+            <Button onClick={() => setCurrentView('dashboard')} variant="outline">
+              ← Back to Dashboard
+            </Button>
+          </div>
+        </div>
+        <LeaderboardPage />
+      </div>
+    );
+  }
+
+  if (currentView === 'profile') {
+    return (
+      <div>
+        <div className="bg-white shadow-sm border-b">
+          <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 className="text-2xl font-bold text-gray-900">My Profile</h1>
+            <Button onClick={() => setCurrentView('dashboard')} variant="outline">
+              ← Back to Dashboard
+            </Button>
+          </div>
+        </div>
+        <ProfilePage studentId={student?.id} isOwnProfile={true} />
+      </div>
+    );
+  }
+
+  if (currentView === 'friends') {
+    return (
+      <div>
+        <div className="bg-white shadow-sm border-b">
+          <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 className="text-2xl font-bold text-gray-900">Friends</h1>
+            <Button onClick={() => setCurrentView('dashboard')} variant="outline">
+              ← Back to Dashboard
+            </Button>
+          </div>
+        </div>
+        <FriendsPage />
+      </div>
+    );
+  }
+
+  if (currentView === 'classes') {
+    return (
+      <div>
+        <div className="bg-white shadow-sm border-b">
+          <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 className="text-2xl font-bold text-gray-900">Classes</h1>
+            <Button onClick={() => setCurrentView('dashboard')} variant="outline">
+              ← Back to Dashboard
+            </Button>
+          </div>
+        </div>
+        <ClassesPage />
+      </div>
+    );
+  }
+
+  if (currentView === 'shared-challenges') {
+    return (
+      <div>
+        <div className="bg-white shadow-sm border-b">
+          <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 className="text-2xl font-bold text-gray-900">Challenges</h1>
+            <Button onClick={() => setCurrentView('dashboard')} variant="outline">
+              ← Back to Dashboard
+            </Button>
+          </div>
+        </div>
+        <SharedChallengesPage />
+      </div>
+    );
+  }
+
+  if (currentView === 'feed') {
+    return (
+      <div>
+        <div className="bg-white shadow-sm border-b">
+          <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 className="text-2xl font-bold text-gray-900">Activity Feed</h1>
+            <Button onClick={() => setCurrentView('dashboard')} variant="outline">
+              ← Back to Dashboard
+            </Button>
+          </div>
+        </div>
+        <SocialFeedPage />
+      </div>
+    );
+  }
+
+  if (currentView === 'achievements') {
+    return (
+      <div>
+        <div className="bg-white shadow-sm border-b">
+          <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 className="text-2xl font-bold text-gray-900">Achievements</h1>
+            <Button onClick={() => setCurrentView('dashboard')} variant="outline">
+              ← Back to Dashboard
+            </Button>
+          </div>
+        </div>
+        <AchievementsPage />
+      </div>
+    );
+  }
+
+  if (currentView === 'reviews') {
+    return <ReviewDashboard onBack={() => setCurrentView('dashboard')} />;
+  }
+
+  if (currentView === 'resources') {
+    return (
+      <div>
+        <div className="bg-white shadow-sm border-b">
+          <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 className="text-2xl font-bold text-gray-900">Resource Library</h1>
+            <Button onClick={() => setCurrentView('dashboard')} variant="outline">
+              ← Back to Dashboard
+            </Button>
+          </div>
+        </div>
+        <ResourceLibrary />
+      </div>
+    );
+  }
+
+  if (currentView === 'review-session' && selectedSkill?.learningPathId) {
+    return (
+      <ReviewSession 
+        learningPathId={selectedSkill.learningPathId}
+        onComplete={handleReviewComplete}
+        onBack={() => setCurrentView('reviews')}
+      />
+    );
+  }
+
   if (currentView === 'assessment') {
     return <Assessment onComplete={handleAssessmentComplete} />;
   }
@@ -105,7 +274,62 @@ function AuthenticatedApp() {
             <h1 className="text-2xl font-bold text-gray-900">Alpha Learning Platform</h1>
             <p className="text-sm text-gray-600">Welcome back, {student.name}!</p>
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-4 items-center">
+            <XPDisplay onProgressClick={() => console.log('Show progress modal')} />
+            <Button
+              onClick={() => setCurrentView('leaderboard')}
+              variant="outline"
+            >
+              🏆 Leaderboard
+            </Button>
+            <Button
+              onClick={() => setCurrentView('achievements')}
+              variant="outline"
+            >
+              🏅 Achievements
+            </Button>
+            <Button
+              onClick={() => setCurrentView('reviews')}
+              variant="outline"
+            >
+              📚 Reviews
+            </Button>
+            <Button
+              onClick={() => setCurrentView('feed')}
+              variant="outline"
+            >
+              📰 Feed
+            </Button>
+            <Button
+              onClick={() => setCurrentView('friends')}
+              variant="outline"
+            >
+              👥 Friends
+            </Button>
+            <Button
+              onClick={() => setCurrentView('classes')}
+              variant="outline"
+            >
+              🎓 Classes
+            </Button>
+            <Button
+              onClick={() => setCurrentView('shared-challenges')}
+              variant="outline"
+            >
+              🎯 Challenges
+            </Button>
+            <Button
+              onClick={() => setCurrentView('profile')}
+              variant="outline"
+            >
+              👤 Profile
+            </Button>
+            <Button
+              onClick={() => setCurrentView('resources')}
+              variant="outline"
+            >
+              📖 Resources
+            </Button>
             <Button
               onClick={() => setCurrentView('assessment')}
               variant="outline"

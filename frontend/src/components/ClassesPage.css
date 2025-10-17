@@ -1,0 +1,361 @@
+.classes-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.classes-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.classes-tabs button {
+  padding: 12px 24px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.classes-tabs button:hover {
+  color: #333;
+  background: #f5f5f5;
+}
+
+.classes-tabs button.active {
+  color: #6366f1;
+  border-bottom-color: #6366f1;
+}
+
+.classes-content {
+  margin-top: 20px;
+}
+
+/* My Classes */
+.classes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.class-card {
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.class-card:hover {
+  border-color: #6366f1;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+  transform: translateY(-2px);
+}
+
+.class-card h3 {
+  margin: 0 0 10px 0;
+  color: #333;
+  font-size: 18px;
+}
+
+.class-description {
+  color: #666;
+  font-size: 14px;
+  margin: 10px 0;
+  line-height: 1.4;
+}
+
+.class-info {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+
+.badge {
+  padding: 4px 12px;
+  background: #f0f0f0;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #666;
+}
+
+.badge-teacher {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+/* Join Class */
+.join-class, .create-class {
+  max-width: 500px;
+  margin: 0 auto;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  border: 2px solid #e0e0e0;
+}
+
+.join-class h3, .create-class h3 {
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.join-class p {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.join-class form, .create-class form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.join-class input {
+  padding: 12px;
+  font-size: 18px;
+  text-align: center;
+  letter-spacing: 2px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: #333;
+}
+
+.form-group input, .form-group textarea, .form-group select {
+  padding: 10px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.form-group textarea {
+  resize: vertical;
+  font-family: inherit;
+}
+
+.join-class button, .create-class button {
+  padding: 12px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.join-class button:hover, .create-class button:hover {
+  transform: scale(1.02);
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+}
+
+.empty-state p {
+  margin: 10px 0;
+}
+
+/* Class Detail */
+.class-detail {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+}
+
+.class-header {
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+}
+
+.back-button {
+  background: #f0f0f0;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.back-button:hover {
+  background: #e0e0e0;
+}
+
+.class-header h2 {
+  margin: 10px 0;
+  color: #333;
+}
+
+.class-meta {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.invite-code-box {
+  margin-top: 15px;
+  padding: 15px;
+  background: #f8f9ff;
+  border: 2px dashed #6366f1;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.invite-code-box code {
+  font-size: 20px;
+  font-weight: 700;
+  color: #6366f1;
+  letter-spacing: 2px;
+  margin-left: 10px;
+}
+
+/* Class Stats Summary */
+.class-stats-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.stat-label {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* Leaderboard */
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.leaderboard-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  transition: all 0.2s;
+}
+
+.leaderboard-item:hover {
+  border-color: #6366f1;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.1);
+}
+
+.leaderboard-item.rank-1 {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  border-color: #ffd700;
+}
+
+.leaderboard-item.rank-2 {
+  background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%);
+  border-color: #c0c0c0;
+}
+
+.leaderboard-item.rank-3 {
+  background: linear-gradient(135deg, #cd7f32 0%, #e8a87c 100%);
+  border-color: #cd7f32;
+}
+
+.rank-badge {
+  font-size: 18px;
+  font-weight: 700;
+  color: #6366f1;
+  min-width: 40px;
+  text-align: center;
+}
+
+.leaderboard-item.rank-1 .rank-badge,
+.leaderboard-item.rank-2 .rank-badge,
+.leaderboard-item.rank-3 .rank-badge {
+  color: #333;
+}
+
+.member-avatar {
+  font-size: 32px;
+}
+
+.member-info {
+  flex: 1;
+}
+
+.member-name {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.member-meta {
+  font-size: 13px;
+  color: #666;
+}
+
+.member-xp {
+  font-weight: 700;
+  color: #6366f1;
+  font-size: 16px;
+}
+
+.leaderboard-item.rank-1 .member-xp,
+.leaderboard-item.rank-2 .member-xp,
+.leaderboard-item.rank-3 .member-xp {
+  color: #333;
+}
+
+.leave-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.leave-button:hover {
+  background: #dc2626;
+}
+

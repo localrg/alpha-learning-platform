@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://zmhqivckvvnn.manus.space';
+const API_BASE_URL = import.meta.env.VITE_API_URL || '';
 
 class ApiClient {
   constructor() {
@@ -112,11 +112,11 @@ export default apiClient;
 
 // Specific API service functions
 export const authAPI = {
-  login: (credentials) => apiClient.post('/auth/login', credentials),
-  register: (userData) => apiClient.post('/auth/register', userData),
-  logout: () => apiClient.post('/auth/logout'),
-  getCurrentUser: () => apiClient.get('/auth/me'),
-  refreshToken: () => apiClient.post('/auth/refresh'),
+  login: (credentials) => apiClient.post('/api/auth/login', credentials),
+  register: (userData) => apiClient.post('/api/auth/register', userData),
+  logout: () => apiClient.post('/api/auth/logout'),
+  getCurrentUser: () => apiClient.get('/api/auth/me'),
+  refreshToken: () => apiClient.post('/api/auth/refresh'),
 };
 
 export const studentAPI = {

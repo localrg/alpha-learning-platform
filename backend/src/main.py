@@ -1,5 +1,8 @@
 import os
 import sys
+from dotenv import load_dotenv
+
+load_dotenv()
 # DON'T CHANGE THIS !!!
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
@@ -76,8 +79,8 @@ app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'sta
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 # Configuration
-app.config['SECRET_KEY'] = 'asdf#FGSgvasgf$5$WGT'
-app.config['JWT_SECRET_KEY'] = 'jwt-secret-key-change-in-production-2024'  # Change this in production!
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'asdf#FGSgvasgf$5$WGT')
+app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'jwt-secret-key-change-in-production-2024')
 
 # Initialize JWT
 jwt = JWTManager(app)

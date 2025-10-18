@@ -12,6 +12,12 @@ export default defineConfig({
     },
   },
   server: {
+    host: '0.0.0.0',
+    strictPort: false,
+    hmr: {
+      clientPort: 5174
+    },
+    allowedHosts: 'all',
     proxy: {
       '/api': {
         target: 'http://localhost:5000',

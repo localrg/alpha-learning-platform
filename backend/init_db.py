@@ -25,7 +25,7 @@ def init_database():
         # Create test student
         student_user = User(
             email='student@test.com',
-            username='teststudent',
+            username='student1',
             role='student'
         )
         student_user.set_password('password123')
@@ -42,7 +42,7 @@ def init_database():
         # Create test teacher
         teacher_user = User(
             email='teacher@test.com',
-            username='testteacher',
+            username='teacher1',
             role='teacher'
         )
         teacher_user.set_password('password123')
@@ -52,6 +52,7 @@ def init_database():
         teacher = Teacher(
             user_id=teacher_user.id,
             name='Test Teacher',
+            email='teacher@test.com',
             subject='Mathematics'
         )
         db.session.add(teacher)
@@ -59,7 +60,7 @@ def init_database():
         # Create test parent
         parent_user = User(
             email='parent@test.com',
-            username='testparent',
+            username='parent1',
             role='parent'
         )
         parent_user.set_password('password123')
@@ -77,7 +78,7 @@ def init_database():
         # Create test admin
         admin_user = User(
             email='admin@test.com',
-            username='testadmin',
+            username='admin1',
             role='admin'
         )
         admin_user.set_password('password123')

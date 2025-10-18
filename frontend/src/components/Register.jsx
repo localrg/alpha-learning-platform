@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -6,8 +7,9 @@ import { Label } from './ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Alert, AlertDescription } from './ui/alert';
 
-const Register = ({ onSwitchToLogin }) => {
+const Register = () => {
   const { register } = useAuth();
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -127,7 +129,7 @@ const Register = ({ onSwitchToLogin }) => {
             Already have an account?{' '}
             <button
               type="button"
-              onClick={onSwitchToLogin}
+              onClick={() => navigate('/login')}
               className="text-primary hover:underline"
               disabled={loading}
             >

@@ -31,8 +31,9 @@ CORS(app, resources={
 })
 
 # Initialize database
-from database import init_db
-db = init_db(app)
+from database import init_db, db
+init_db(app)
+
 
 # Import and register blueprints
 from routes.auth import auth_bp

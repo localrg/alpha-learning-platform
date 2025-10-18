@@ -20,8 +20,15 @@ def init_db(app):
     """
     # Configure database URI
     import os
-    db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'src', 'database', 'app.db')
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///alpha_learning.db')'
+    
+    # Get database URL from environment
+    database_url = os.environ.get('DATABASE_URL', 'sqlite:///alpha_learning.db')
+    
+    # Fix Railway's postgres:// to postgresql://
+    if database_url and database_url.startswith('postgres://'):
+        database_url = database_url.replace('postgres://', 'postgresql://', 1)
+    
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_url
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     # Initialize extensions with app
@@ -33,4 +40,3 @@ def init_db(app):
         db.create_all()
     
     return db
-

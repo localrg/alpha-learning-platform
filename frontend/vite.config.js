@@ -29,6 +29,10 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 8080,
     strictPort: false,
-    allowedHosts: 'all'
+    allowedHosts: [
+      'tender-light-production.up.railway.app',
+      'localhost',
+      '.railway.app'
+    ]
   }
 } )

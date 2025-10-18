@@ -10,7 +10,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Import database initialization
-from src.database.database import init_db
+from src.database import init_db
+
 
 # Import route blueprints
 from src.routes.auth import auth_bp

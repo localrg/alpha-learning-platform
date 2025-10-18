@@ -9,20 +9,7 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-# Import database initialization
-from src.database import init_db
-
-
-# Import route blueprints
-from src.routes.auth import auth_bp
-from src.routes.student_routes import student_bp
-from src.routes.teacher_routes import teacher_bp
-from src.routes.parent_routes import parent_bp
-from src.routes.admin_routes import admin_bp
-from src.routes.shared_challenge_routes import shared_challenge_bp
-from src.routes.activity_feed_routes import activity_feed_bp
-
-# Create Flask application
+# Create Flask application first
 app = Flask(__name__)
 
 # Configure app
@@ -38,10 +25,20 @@ CORS(app, resources={
     }
 })
 
-# Initialize database
+# Initialize database (import after app is created)
+from database import init_db
 db = init_db(app)
 
-# Register blueprints with /api prefix
+# Import route blueprints (after database is initialized)
+from routes.auth import auth_bp
+from routes.student_routes import student_bp
+from routes.teacher_routes import teacher_bp
+from routes.parent_routes import parent_bp
+from routes.admin_routes import admin_bp
+from routes.shared_challenge_routes import shared_challenge_bp
+from routes.activity_feed_routes import activity_feed_bp
+
+# Register blueprints
 app.register_blueprint(auth_bp, url_prefix='/api/auth')
 app.register_blueprint(student_bp, url_prefix='/api/student')
 app.register_blueprint(teacher_bp, url_prefix='/api/teacher')
@@ -53,32 +50,14 @@ app.register_blueprint(activity_feed_bp, url_prefix='/api/activity')
 # Root route
 @app.route('/')
 def index():
-    """Root endpoint"""
+    return {'message': 'Alpha Learning Platform API', 'status': 'running'}, 200
+
+# API root
+@app.route('/api')
+@app.route('/api/')
+def api_root():
     return {
         'message': 'Alpha Learning Platform API',
         'version': '1.0',
         'status': 'running'
     }, 200
-
-# API root route
-@app.route('/api')
-@app.route('/api/')
-def api_root():
-    """API root endpoint"""
-    return {
-        'message': 'Alpha Learning Platform API',
-        'version': '1.0',
-        'status': 'running',
-        'endpoints': {
-            'auth': '/api/auth',
-            'student': '/api/student',
-            'teacher': '/api/teacher',
-            'parent': '/api/parent',
-            'admin': '/api/admin',
-            'challenges': '/api/challenges',
-            'activity': '/api/activity'
-        }
-    }, 200
-
-# Export app for Gunicorn
-# Note: No app.run() here - Gunicorn handles that

@@ -2,6 +2,11 @@
 Main application entry point for Alpha Learning Platform.
 """
 import os
+import sys
+
+# Add src to path
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+
 from flask import Flask
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -9,7 +14,7 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-# Create Flask application first
+# Create Flask application
 app = Flask(__name__)
 
 # Configure app
@@ -25,11 +30,11 @@ CORS(app, resources={
     }
 })
 
-# Initialize database (import after app is created)
-from database import init_db
+# Initialize database - import from database.database module
+from database.database import init_db
 db = init_db(app)
 
-# Import route blueprints (after database is initialized)
+# Import and register blueprints
 from routes.auth import auth_bp
 from routes.student_routes import student_bp
 from routes.teacher_routes import teacher_bp
@@ -38,7 +43,6 @@ from routes.admin_routes import admin_bp
 from routes.shared_challenge_routes import shared_challenge_bp
 from routes.activity_feed_routes import activity_feed_bp
 
-# Register blueprints
 app.register_blueprint(auth_bp, url_prefix='/api/auth')
 app.register_blueprint(student_bp, url_prefix='/api/student')
 app.register_blueprint(teacher_bp, url_prefix='/api/teacher')
@@ -47,12 +51,11 @@ app.register_blueprint(admin_bp, url_prefix='/api/admin')
 app.register_blueprint(shared_challenge_bp, url_prefix='/api/challenges')
 app.register_blueprint(activity_feed_bp, url_prefix='/api/activity')
 
-# Root route
+# Root routes
 @app.route('/')
 def index():
     return {'message': 'Alpha Learning Platform API', 'status': 'running'}, 200
 
-# API root
 @app.route('/api')
 @app.route('/api/')
 def api_root():

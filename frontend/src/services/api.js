@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || '';
+const API_BASE_URL = (import.meta.env.VITE_API_URL || '') + '/api';
 
 class ApiClient {
   constructor() {
@@ -42,19 +42,49 @@ class ApiClient {
       let data;
       
       if (contentType && contentType.includes('application/json')) {
-        data = await response.json();
+        try {
+          data = await response.json();
+        } catch (jsonError) {
+          // If JSON parsing fails, get as text
+          data = await response.text();
+        }
       } else {
         data = await response.text();
       }
 
       if (!response.ok) {
-        throw new Error(data.message || data || `HTTP error! status: ${response.status}`);
+        // Better error handling for different response types
+        let errorMessage;
+        if (typeof data === 'object' && data !== null) {
+          errorMessage = data.error || data.message || `HTTP error! status: ${response.status}`;
+        } else if (typeof data === 'string') {
+          errorMessage = data || `HTTP error! status: ${response.status}`;
+        } else {
+          errorMessage = `HTTP error! status: ${response.status}`;
+        }
+        
+        const error = new Error(errorMessage);
+        error.status = response.status;
+        error.data = data;
+        throw error;
       }
 
       return data;
     } catch (error) {
-      console.error('API request failed:', error);
-      throw error;
+      console.error('API request failed:', {
+        url,
+        method: config.method || 'GET',
+        status: error.status,
+        message: error.message,
+        data: error.data
+      });
+      
+      // Ensure we always throw a proper Error object with a string message
+      if (error instanceof Error) {
+        throw error;
+      } else {
+        throw new Error(typeof error === 'string' ? error : 'An unknown error occurred');
+      }
     }
   }
 
@@ -112,11 +142,11 @@ export default apiClient;
 
 // Specific API service functions
 export const authAPI = {
-  login: (credentials) => apiClient.post('/api/auth/login', credentials),
-  register: (userData) => apiClient.post('/api/auth/register', userData),
-  logout: () => apiClient.post('/api/auth/logout'),
-  getCurrentUser: () => apiClient.get('/api/auth/me'),
-  refreshToken: () => apiClient.post('/api/auth/refresh'),
+  login: (credentials) => apiClient.post('/auth/login', credentials),
+  register: (userData) => apiClient.post('/auth/register', userData),
+  logout: () => apiClient.post('/auth/logout'),
+  getCurrentUser: () => apiClient.get('/auth/me'),
+  refreshToken: () => apiClient.post('/auth/refresh'),
 };
 
 export const studentAPI = {

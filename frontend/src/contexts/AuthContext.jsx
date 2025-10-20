@@ -60,17 +60,30 @@ export const AuthProvider = ({ children }) => {
 
     try {
       const response = await authAPI.login(credentials);
-      const { access_token, user: userData } = response;
+      
+      // Handle different response formats
+      let access_token, userData;
+      if (response && typeof response === 'object') {
+        access_token = response.access_token;
+        userData = response.user;
+      } else {
+        throw new Error('Invalid response format from server');
+      }
+      
+      if (!access_token || !userData) {
+        throw new Error('Missing authentication data in response');
+      }
       
       apiClient.setToken(access_token);
       setUser(userData);
       localStorage.setItem('auth_user', JSON.stringify(userData));
       
-      return userData;
+      return { success: true, user: userData };
     } catch (err) {
+      console.error('Login error:', err);
       const errorMessage = err.message || 'Login failed';
       setError(errorMessage);
-      throw new Error(errorMessage);
+      return { success: false, error: errorMessage };
     } finally {
       setLoading(false);
     }
@@ -82,17 +95,30 @@ export const AuthProvider = ({ children }) => {
 
     try {
       const response = await authAPI.register(userData);
-      const { access_token, user: newUser } = response;
+      
+      // Handle different response formats
+      let access_token, newUser;
+      if (response && typeof response === 'object') {
+        access_token = response.access_token;
+        newUser = response.user;
+      } else {
+        throw new Error('Invalid response format from server');
+      }
+      
+      if (!access_token || !newUser) {
+        throw new Error('Missing authentication data in response');
+      }
       
       apiClient.setToken(access_token);
       setUser(newUser);
       localStorage.setItem('auth_user', JSON.stringify(newUser));
       
-      return newUser;
+      return { success: true, user: newUser };
     } catch (err) {
+      console.error('Registration error:', err);
       const errorMessage = err.message || 'Registration failed';
       setError(errorMessage);
-      throw new Error(errorMessage);
+      return { success: false, error: errorMessage };
     } finally {
       setLoading(false);
     }

@@ -41,13 +41,21 @@ const Register = () => {
 
     setLoading(true);
 
-    const result = await register(username, password, email || undefined);
+    try {
+      const result = await register({ username, password, email: email || undefined });
 
-    if (!result.success) {
-      setError(result.error);
+      if (!result.success) {
+        setError(result.error);
+        setLoading(false);
+      } else {
+        // Registration successful, redirect will happen automatically
+        navigate('/dashboard');
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      setError('Registration failed. Please try again.');
       setLoading(false);
     }
-    // If successful, AuthContext will update and App will re-render
   };
 
   return (
